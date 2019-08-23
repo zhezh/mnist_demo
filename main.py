@@ -1,7 +1,9 @@
 from __future__ import print_function
 import argparse
 import os
+import sys
 import pathlib
+import logging
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -60,6 +62,10 @@ def test(args, model, device, test_loader):
         100. * correct / len(test_loader.dataset)))
 
 def main():
+    logging.basicConfig(level=logging.DEBUG, stream=sys.stdout)
+    logger = logging.getLogger('mnist')
+    # logger.setLevel(logging.DEBUG)
+    logger.info('Mnist demo start')
     # Training settings
     parser = argparse.ArgumentParser(description='PyTorch MNIST Example')
     parser.add_argument('--batch-size', type=int, default=64, metavar='N',
@@ -87,6 +93,10 @@ def main():
                         help='')
 
     args = parser.parse_args()
+
+    logger.info(args.data_path)
+    logger.info(args.out_path)
+
     use_cuda = not args.no_cuda and torch.cuda.is_available()
 
     torch.manual_seed(args.seed)
